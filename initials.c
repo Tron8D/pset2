@@ -1,29 +1,44 @@
 #include <stdio.h>
 #include <cs50.h>
 #include <string.h>
+#include <ctype.h>
 
-int main(void)
-{
+int main(void){ //More Comfortable
     char* name = GetString();
+    int space = 32;
+    int firstLetter = 0;
+    int* f = &firstLetter;
     
-    if (name[0] >= 97 && name[0] <= 122){
-        printf("%c" , name[0]-32);
+    if (name[*f] == space){
+        do {
+            *f+=1;
+        } while (name[*f] == space);
+    }       
+
+    if (islower(name[*f])){
+        printf("%c" , toupper(name[*f]));
     } else {
-        printf("%c" , name[0]);
+        printf("%c" , name[*f]);
     }
     
-    for (int i = 0 , n = 0; i < strlen(name); i++){
+    for (int i = *f , n = 0; i < strlen(name); i++){
         
-        if (name[i] == 32){
-            n = i + 1;
+        if (name[i] == space){
+            do {
+                n = i + 1;
+                i = n;
+            } while (name[n] == space);
             
-            if (name[n] >= 97 && name[n] <= 122){
-                printf("%c" , name[n]-32);
+            if (name[n] == '\0'){
+                break;    
+            }
+            
+            if (islower(name[n])){
+                printf("%c" , toupper(name[n]));
             } else {
                 printf("%c" , name[n]);
             }
         }
     }
-    
     printf("\n");
 }

@@ -16,14 +16,11 @@ bool checkToDigital(char* keyword,const int keyLength){ //Checking digit in the 
             break;
         }
     }
-    
     return check;
 }
 
 int* transformKey (char* keyword,const int keyLength){ //Transform text to key
     unsigned char c;
-    int a = 97;
-    int A = 65;
     int* k = (int*)malloc(keyLength*sizeof(int));
     int *p = k;
     
@@ -31,9 +28,9 @@ int* transformKey (char* keyword,const int keyLength){ //Transform text to key
         c = keyword[i];
         
         if (islower(c)){
-            k[i] = keyword[i]-(a);
+            k[i] = keyword[i]-('a');
         } else if (isupper(c)){
-            k[i] = keyword[i]-(A);
+            k[i] = keyword[i]-('A');
         } 
     } 
     return p;
@@ -42,50 +39,42 @@ int* transformKey (char* keyword,const int keyLength){ //Transform text to key
 void encrypt(int textIteration , char* text,int keyIteration, int* key){ //Encrypt char with help the key
     unsigned char c = text[textIteration];
     int k = key[keyIteration];
-    int a = 97;
-    int z = 122;
-    int A = 65;
-    int Z = 90;
 
     if (islower(c)){
         c = c + k;
         
-        if (c > z){
-            
+        if (c > 'z'){
             do {
-                c = a + (c - z)-1;
-            } while (c > z);
+                c = 'a' + (c - 'z')-1;
+            } while (c > 'z');
         }
     }  else if (isupper(c)){
         c = c + k;
         
-        if (c > Z){
-            
+        if (c > 'Z'){
             do {
-                c = A + (c - Z)-1;
-            } while (c > Z);
+                c = 'A' + (c - 'Z')-1;
+            } while (c > 'Z');
         }
     }
-    
     printf("%c", c);
 }
 
-void printText (char* text){ //Print array of char (for log)
+void printText (char* text){ //Print array of char (for LOG)
         for (int i = 0; i < strlen(text); i++){
-            printf("%c, ", text[i]);
+            printf("%c,", text[i]);
         }
     printf("\n");
 }
 
-void printNumber(int* nubber, int length){ //Print array of int (for log)
+void printNumber(int* nubber, int length){ //Print array of int (for LOG)
     for (int i = 0; i < length; i++){
-        printf("%i, ", nubber[i]);
+        printf("%i,", nubber[i]);
     }
     printf("\n");
 }
 
-int main(int argc, char* argv[]){
-    
+int main(int argc, char* argv[]){    
     if (argc == 2){
         char* keyword = argv[1];
         const int keyLength = strlen(keyword);        
@@ -126,15 +115,14 @@ int main(int argc, char* argv[]){
         }
         
         printf("\n");
-        
+/*For LOG:  
         printText(plaintext);
         printNumber(key, keyLength);
-        
+*/
         free(key);
     } else {
         printf("Use key: ./vigenere <key>\n");
         return 1; 
     }
-    
     return 0;
 }

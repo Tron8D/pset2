@@ -2,36 +2,37 @@
 #include <cs50.h>
 #include <string.h>
 #include <ctype.h>
-
-void encrypt(int i , string text, int key){
+void encrypt(int i , string text, int key){ //Encrypt char with help the key
     unsigned char c = text[i];
-    
-    if (c >= 97 && c <= 122){
+
+    if (islower(c)){
         c = c + key;
         
-        if (c > 122){
+        if (c > 'z'){
             do {
-            c = 97 + (c - 122)-1;
-            } while (c > 122);
+                c = 'a' + (c - 'z')-1;
+            } while (c > 'z');
         }
-    }  else if (c >= 65 && c <= 90){
+    }  else if (isupper(c)){
         c = c + key;
         
-        if (c > 90){
-            c = 65 + (c - 90)-1;
+        if (c > 'Z'){
+            do {
+                c = 'A' + (c - 'Z')-1;
+            } while (c > 'Z');
         }
     }
     printf("%c", c);
 }
 
 int main(int argc, string argv[]){
-    
     if (argc == 2){
         int key = atoi(argv[1]);
         
         if (key == 0) {
             return 1;
         }
+
         printf("plaintext: ");
         char* text = GetString();
         printf("ciphertext: ");
