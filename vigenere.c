@@ -4,11 +4,10 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-bool checkToDigital(char* keyword,const int keyLength){ //Checking digit in the key
+bool checkToDigital(char* keyword,const int KEY_LENGTH){ //Checking digit in the key
     bool check;
-    int n = keyLength;
-    
-    for (int i = 0; i < n; i++){
+
+    for (int i = 0; i < KEY_LENGTH; i++){
         check = false;
         
         if (!isalpha(keyword[i])){
@@ -19,9 +18,9 @@ bool checkToDigital(char* keyword,const int keyLength){ //Checking digit in the 
     return check;
 }
 
-int* transformKey (char* keyword,const int keyLength){ //Transform text to key
+int* transformKey (char* keyword,const int KEY_LENGTH){ //Transform text to key
     unsigned char c;
-    int* k = (int*)malloc(keyLength*sizeof(int));
+    int* k = (int*)malloc(KEY_LENGTH*sizeof(int));
     int *p = k;
     
     for (int i = 0; i < strlen(keyword); i++){
@@ -74,10 +73,10 @@ void printNumber(int* nubber, int length){ //Print array of int (for LOG)
     printf("\n");
 }
 
-int main(int argc, char* argv[]){    
+int main(int argc, char* argv[]){
     if (argc == 2){
         char* keyword = argv[1];
-        const int keyLength = strlen(keyword);        
+        const int KEY_LENGTH = strlen(keyword);        
         int* key;
         bool numberInKey; 
         
@@ -85,7 +84,7 @@ int main(int argc, char* argv[]){
             return 1;
         }
         
-        numberInKey = checkToDigital(keyword, keyLength);
+        numberInKey = checkToDigital(keyword, KEY_LENGTH);
         
         if (numberInKey){
             printf("Use alphabetic key: ./vigenere <key>\n");
@@ -101,7 +100,7 @@ int main(int argc, char* argv[]){
             return 1;
         }
 
-        key = transformKey(keyword, keyLength);
+        key = transformKey(keyword, KEY_LENGTH);
         printf("ciphertext: ");
 
         for (int i = 0, j = 0, symbol = 0 ; i < textLength; i++){
@@ -110,14 +109,14 @@ int main(int argc, char* argv[]){
                 symbol++;
             }
             
-            j = (i-symbol)%keyLength;
+            j = (i-symbol)%KEY_LENGTH;
             encrypt(i , plaintext ,j , key);
         }
         
         printf("\n");
 /*For LOG:  
         printText(plaintext);
-        printNumber(key, keyLength);
+        printNumber(key, KEY_LENGTH);
 */
         free(key);
     } else {
